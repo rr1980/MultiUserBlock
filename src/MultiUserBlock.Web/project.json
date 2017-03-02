@@ -22,7 +22,8 @@
     "MultiUserBlock.ViewModels": "1.0.0-*",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
     "MultiUserBlock.Services": "1.0.0-*",
-    "MultiUserBlock.DB": "1.0.0-*"
+    "MultiUserBlock.DB": "1.0.0-*",
+    "MultiUserBlock.WebSockets": "1.0.0-*"
   },
 
   "tools": {

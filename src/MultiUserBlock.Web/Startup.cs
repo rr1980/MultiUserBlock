@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.Authorization;
 using MultiUserBlock.Web.Authorization;
 using MultiUserBlock.Common.Enums;
 using MultiUserBlock.DB;
+using MultiUserBlock.WebSockets;
+using System.Reflection;
+using MultiUserBlock.Web.WebSocketHandlers;
 
 namespace MultiUserBlock.Web
 {
@@ -56,14 +59,17 @@ namespace MultiUserBlock.Web
 
 
             services.AddMvc();
+
+            services.AddWebSocketManager(GetType().GetTypeInfo().Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseWebSockets();
 
             if (env.IsDevelopment())
             {
@@ -98,6 +104,10 @@ namespace MultiUserBlock.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.MapWebSocketManager("/admins", serviceProvider.GetService<AdminMessageHandler>());
+            app.MapWebSocketManager("/notifications", serviceProvider.GetService<NotificationsMessageHandler>());
+
         }
     }
 }

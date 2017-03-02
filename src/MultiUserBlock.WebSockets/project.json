@@ -1,9 +1,10 @@
-{
+﻿{
   "version": "1.0.0-*",
 
   "dependencies": {
     "Microsoft.NETCore.App": "1.1.0",
-    "Microsoft.AspNetCore.WebSockets": "1.0.0"
+    "MultiUserBlock.ViewModels": "1.0.0-*",
+    "Microsoft.Extensions.Configuration.Json": "1.1.0"
   },
 
   "frameworks": {
