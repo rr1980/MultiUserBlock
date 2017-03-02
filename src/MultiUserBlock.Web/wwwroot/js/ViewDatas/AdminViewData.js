@@ -16,6 +16,11 @@ window.ViewModels = (function (module) {
             });
         };
 
+        self.OnClickPwClear = function () {
+            adminService.resetPw(ko.mapping.toJS(self.user)).success(function (response) {
+                            });
+        };
+
         self.onClickSave = function () {
             var userna = self.user().username();
             adminService.saveUser(ko.mapping.toJS(self.user)).success(function (response) {

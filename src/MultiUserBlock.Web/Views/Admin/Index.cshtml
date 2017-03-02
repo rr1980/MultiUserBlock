@@ -28,10 +28,15 @@
                     </div>
                     <div class="row row-buffTop">
                         <th_enum th-label="Rolle" th-value="user().roles" th-type="@typeof(UserRoleType)" th-col="8"></th_enum>
-                        <th_crud th-show-edit="false"
+                        
+                        <th_crud class="col-md-4"
+                                 th-show-edit="false"
                                  th-show-insert="false"
-                                 th-bind-del="disable: (selectedUserId()<1)"
-                                 th-col="4"></th_crud>
+                                 th-bind-disable="selectedUserId()<1">
+                            <th_crud_left>
+                                <button class='btn btn-warning btn-sm'  data-bind='disable: (selectedUserId()<1 || window.isLoading()), click: OnClickPwClear'>Passwort zurücksetzen</button>
+                            </th_crud_left>
+                        </th_crud>
                     </div>
                     <div class="row row-buffTop">
                         <ul id="errors">

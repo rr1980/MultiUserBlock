@@ -27,6 +27,22 @@
             }).complete(complete);
         };
 
+        service.resetPw = function (user) {
+            start();
+            return $.ajax({
+                url: serviceurl + "ResetPassord",
+                data: {
+                    user: user
+                },
+                type: "POST",
+                cache: false
+            }).fail(function (a, b, c) {
+                console.debug(a);
+                console.debug(b);
+                console.debug(c);
+            }).complete(complete);
+        };
+
         service.delUser = function (user) {
             start();
             return $.ajax({

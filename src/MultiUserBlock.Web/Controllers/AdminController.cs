@@ -72,6 +72,11 @@ namespace MultiUserBlock.Web.Controllers
             };
         }
 
+        public async Task ResetPassord(UserViewModel user)
+        {
+            await _userRepository.ResetPassword(user.UserId);
+        }
+
         public async Task<AdminViewModel> DelUser(UserViewModel user)
         {
             await _userRepository.Remove(user.UserId);

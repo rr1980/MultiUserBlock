@@ -15,5 +15,6 @@ namespace MultiUserBlock.Common.Repository
         Task Remove(int userId);
         Task AddOrUpdate(UserViewModel user);
         Task<bool> HasRole(int userId, UserRoleType urt);
+        Task ResetPassword(int userId);
     }
 }

@@ -71,6 +71,7 @@ namespace MultiUserBlock.Web.Controllers
 
         private async Task<bool> _auth(string username, string password)
         {
+            password = password ?? string.Empty;
             var user = await _userRepository.GetByUserName(username);
 
             if (user == null || (user.Password != password))

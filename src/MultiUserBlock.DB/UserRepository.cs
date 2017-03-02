@@ -53,6 +53,7 @@ namespace MultiUserBlock.DB
                 ex.Name = user.Name;
                 ex.Vorname = user.Vorname;
                 ex.Username = user.Username;
+                //ex.Password = user.Password;
                 List<RoleToUser> rtus = new List<RoleToUser>();
                 foreach (var role in user.Roles)
                 {
@@ -73,7 +74,7 @@ namespace MultiUserBlock.DB
             }
             catch (Exception e)
             {
-                Console.WriteLine(e); 
+                Console.WriteLine(e);
                 throw;
             }
         }
@@ -89,7 +90,7 @@ namespace MultiUserBlock.DB
         public async Task<List<UserViewModel>> GetAll()
         {
             return await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Select(r => _map(r)).ToListAsync();
-         }
+        }
 
         public async Task<UserViewModel> GetById(int userId)
         {
@@ -112,6 +113,20 @@ namespace MultiUserBlock.DB
         {
             _db.Remove(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.UserId == userId));
             _context.SaveChanges();
+        }
+
+        public async Task ResetPassword(int userId)
+        {
+            var ex = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.UserId == userId);
+            if (ex == null)
+            {
+                return;
+            }
+            else
+            {
+                ex.Password = "";
+                _context.SaveChanges();
+            }
         }
 
         private UserViewModel _map(User user)
