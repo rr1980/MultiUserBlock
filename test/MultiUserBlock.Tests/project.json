@@ -1,0 +1,29 @@
+﻿{
+  "version": "1.0.0-*",
+  "testRunner": "mstest",
+
+  "dependencies": {
+    "dotnet-test-mstest": "1.1.2-preview",
+    "Microsoft.AspNetCore.Hosting": "1.1.0",
+    "Microsoft.AspNetCore.Identity": "1.1.0",
+    "Microsoft.AspNetCore.TestHost": "1.1.0",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.1.0"
+    },
+    "MSTest.TestFramework": "1.1.11",
+    "MultiUserBlock.Common": "1.0.0-*",
+    "MultiUserBlock.Common.Repository": "1.0.0-*",
+    "MultiUserBlock.DB": "1.0.0-*",
+    "MultiUserBlock.Services": "1.0.0-*",
+"MultiUserBlock.ViewModels": "1.0.0-*",
+    "MultiUserBlock.Web": "1.0.0-*",
+"MultiUserBlock.WebSockets": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore56"
+    }
+  }
+}

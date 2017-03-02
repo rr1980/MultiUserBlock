@@ -64,21 +64,34 @@ namespace MultiUserBlock.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env = null, ILoggerFactory loggerFactory = null)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            if (loggerFactory != null)
+            {
+                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+                loggerFactory.AddDebug();
+            }
 
             app.UseWebSockets();
 
-            if (env.IsDevelopment())
+            if (env != null)
             {
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                    app.UseDatabaseErrorPage();
+                    app.UseBrowserLink();
+                }
+                else
+                {
+                    app.UseExceptionHandler("/Home/Error");
+                }
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
             }
 
             app.UseStaticFiles();
