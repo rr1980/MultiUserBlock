@@ -1,0 +1,30 @@
+﻿@model  MultiUserBlock.ViewModels.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@await Component.InvokeAsync(nameof(NavbarComponent))
+
+<div id="homeView" class="container-fluid">
+    <h1>
+        Hallo...
+    </h1>
+
+    <input type=text id="textInput" placeholder="Enter your text" data-bind="value: tinput" />
+    <button id="sendButton" data-bind="click: onClickSend">Send</button>
+
+    <ul id="messages" data-bind="foreach: msgs">
+        <li>
+            <span data-bind="text: $data"></span>
+        </li>
+    </ul>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var viewmodel = new ViewModels.HomeViewData(@Html.Raw(Json.Serialize(Model)));
+        ko.applyBindings(viewmodel, document.getElementById('homeView'));
+    });
+</script>
