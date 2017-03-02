@@ -6,10 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using MultiUserBlock.Common;
 using MultiUserBlock.Common.Enums;
 using MultiUserBlock.Common.Repository;
-using MultiUserBlock.Models;
 using MultiUserBlock.ViewModels;
 
-namespace MultiUserBlock.Repository
+namespace MultiUserBlock.DB
 {
     public class UserRepository : IUserRepository
     {

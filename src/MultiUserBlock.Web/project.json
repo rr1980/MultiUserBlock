@@ -1,9 +1,7 @@
 {
   "dependencies": {
-    "MultiUserBlock.Models": "1.0.0-*",
     "MultiUserBlock.Common": "1.0.0-*",
     "MultiUserBlock.Common.Repository": "1.0.0-*",
-    "MultiUserBlock.Repository": "1.0.0-*",
     "BundlerMinifier.Core": "2.4.337",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.1",
@@ -23,7 +21,8 @@
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
     "MultiUserBlock.ViewModels": "1.0.0-*",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
-    "MultiUserBlock.Services": "1.0.0-*"
+    "MultiUserBlock.Services": "1.0.0-*",
+    "MultiUserBlock.DB": "1.0.0-*"
   },
 
   "tools": {

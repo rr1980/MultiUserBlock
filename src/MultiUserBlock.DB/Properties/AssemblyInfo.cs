@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MultiUserBlock.Models")]
+[assembly: AssemblyProduct("MultiUserBlock.DB")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ef325811-7bcb-44bd-b151-9749e3be15a7")]
+[assembly: Guid("4ec641e8-a921-4f58-8dfd-e413b9d5fe79")]

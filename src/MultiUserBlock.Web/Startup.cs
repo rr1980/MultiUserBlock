@@ -8,14 +8,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using MultiUserBlock.Models;
 using MultiUserBlock.Common.Repository;
-using MultiUserBlock.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using MultiUserBlock.Web.Authorization;
 using MultiUserBlock.Common.Enums;
+using MultiUserBlock.DB;
 
 namespace MultiUserBlock.Web
 {

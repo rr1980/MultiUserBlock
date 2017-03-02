@@ -3,9 +3,7 @@
 
   "dependencies": {
     "Microsoft.NETCore.App": "1.1.0",
-    "MultiUserBlock.Common": "1.0.0-*",
-    "MultiUserBlock.Common.Repository": "1.0.0-*",
-    "MultiUserBlock.Models": "1.0.0-*"
+    "MultiUserBlock.Common": "1.0.0-*"
   },
 
   "frameworks": {

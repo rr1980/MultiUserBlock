@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace MultiUserBlock.Models
+namespace MultiUserBlock.DB
 {
     public class DataContext : DbContext
     {

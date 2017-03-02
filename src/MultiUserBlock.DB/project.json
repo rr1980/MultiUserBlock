@@ -1,27 +1,36 @@
 {
   "version": "1.0.0-*",
+  "buildOptions": {
+    "emitEntryPoint": true
+  },
 
   "dependencies": {
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.1.0"
+    },
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.Tools": {
       "version": "1.1.0-preview4-final",
       "type": "build"
     },
-    "MultiUserBlock.Common": "1.0.0-*",
-    "Microsoft.NETCore.App": "1.1.0"
+    "MultiUserBlock.Common.Repository": "1.0.0-*",
+    "MultiUserBlock.Common": "1.0.0-*"
   },
+
   "tools": {
     "Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final",
     "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final"
   },
+
   "frameworks": {
     "netcoreapp1.0": {
       "imports": "dnxcore56"
     }
   },
 
-  "runtimes": {
+    "runtimes": {
     "win10-x64": {}
   }
 }

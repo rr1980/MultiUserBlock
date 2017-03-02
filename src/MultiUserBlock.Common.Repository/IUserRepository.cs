@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MultiUserBlock.Common.Enums;
-using MultiUserBlock.Models;
 using MultiUserBlock.ViewModels;
 
 namespace MultiUserBlock.Common.Repository
