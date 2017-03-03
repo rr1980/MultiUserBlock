@@ -92,6 +92,8 @@ namespace MultiUserBlock.DB
                     }
                     Console.WriteLine("Erzeuge Daten...");
 
+                    Creater_LayoutTheme.Create(context);
+
                     Createer_Roles.Create(context);
 
                     Creater_Users.Create(context,
@@ -101,7 +103,8 @@ namespace MultiUserBlock.DB
                             Name = "Riesner",
                             Vorname = "Rene",
                             Username = "rr1980",
-                            Password = "12003"
+                            Password = "12003",
+                            LayoutTheme = context.LayoutThemes.SingleOrDefault(lt => lt.Name == "default")
                         });
 
                     Creater_Users.Create(context,
@@ -111,7 +114,8 @@ namespace MultiUserBlock.DB
                             Name = "Riesner",
                             Vorname = "Sven",
                             Username = "Oxi",
-                            Password = "12003"
+                            Password = "12003",
+                            LayoutTheme = context.LayoutThemes.SingleOrDefault(lt => lt.Name == "slate")
                         });
                 }
             }

@@ -1,6 +1,6 @@
 /*!
- * Knockout JavaScript library v3.4.1
- * (c) The Knockout.js team - http://knockoutjs.com/
+ * Knockout JavaScript library v3.4.0
+ * (c) Steven Sanderson - http://knockoutjs.com/
  * License: MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
@@ -45,7 +45,7 @@ ko.exportSymbol = function(koPath, object) {
 ko.exportProperty = function(owner, publicName, object) {
     owner[publicName] = object;
 };
-ko.version = "3.4.1";
+ko.version = "3.4.0";
 
 ko.exportSymbol('version', ko.version);
 // For any options that may affect various areas of Knockout and aren't directly associated with data binding.
@@ -1707,7 +1707,6 @@ ko.extenders['trackArrayChanges'] = function(target, options) {
         cachedDiff = null,
         arrayChangeSubscription,
         pendingNotifications = 0,
-        underlyingNotifySubscribersFunction,
         underlyingBeforeSubscriptionAddFunction = target.beforeSubscriptionAdd,
         underlyingAfterSubscriptionRemoveFunction = target.afterSubscriptionRemove;
 
@@ -1724,10 +1723,6 @@ ko.extenders['trackArrayChanges'] = function(target, options) {
         if (underlyingAfterSubscriptionRemoveFunction)
             underlyingAfterSubscriptionRemoveFunction.call(target, event);
         if (event === arrayChangeEventName && !target.hasSubscriptionsForEvent(arrayChangeEventName)) {
-            if (underlyingNotifySubscribersFunction) {
-                target['notifySubscribers'] = underlyingNotifySubscribersFunction;
-                underlyingNotifySubscribersFunction = undefined;
-            }
             arrayChangeSubscription.dispose();
             trackingChanges = false;
         }
@@ -1742,7 +1737,7 @@ ko.extenders['trackArrayChanges'] = function(target, options) {
         trackingChanges = true;
 
         // Intercept "notifySubscribers" to track how many times it was called.
-        underlyingNotifySubscribersFunction = target['notifySubscribers'];
+        var underlyingNotifySubscribersFunction = target['notifySubscribers'];
         target['notifySubscribers'] = function(valueToNotify, event) {
             if (!event || event === defaultEvent) {
                 ++pendingNotifications;
@@ -2052,8 +2047,7 @@ var computedFn = {
     evaluateImmediate: function (notifyChange) {
         var computedObservable = this,
             state = computedObservable[computedState],
-            disposeWhen = state.disposeWhen,
-            changed = false;
+            disposeWhen = state.disposeWhen;
 
         if (state.isBeingEvaluated) {
             // If the evaluation of a ko.computed causes side effects, it's possible that it will trigger its own re-evaluation.
@@ -2081,7 +2075,7 @@ var computedFn = {
 
         state.isBeingEvaluated = true;
         try {
-            changed = this.evaluateImmediate_CallReadWithDependencyDetection(notifyChange);
+            this.evaluateImmediate_CallReadWithDependencyDetection(notifyChange);
         } finally {
             state.isBeingEvaluated = false;
         }
@@ -2089,8 +2083,6 @@ var computedFn = {
         if (!state.dependenciesCount) {
             computedObservable.dispose();
         }
-
-        return changed;
     },
     evaluateImmediate_CallReadWithDependencyDetection: function (notifyChange) {
         // This function is really just part of the evaluateImmediate logic. You would never call it from anywhere else.
@@ -2098,8 +2090,7 @@ var computedFn = {
         // which contributes to saving about 40% off the CPU overhead of computed evaluation (on V8 at least).
 
         var computedObservable = this,
-            state = computedObservable[computedState],
-            changed = false;
+            state = computedObservable[computedState];
 
         // Initially, we assume that none of the subscriptions are still being used (i.e., all are candidates for disposal).
         // Then, during evaluation, we cross off any that are in fact still being used.
@@ -2128,22 +2119,17 @@ var computedFn = {
             }
 
             state.latestValue = newValue;
-            if (DEBUG) computedObservable._latestValue = newValue;
 
             if (state.isSleeping) {
                 computedObservable.updateVersion();
             } else if (notifyChange) {
                 computedObservable["notifySubscribers"](state.latestValue);
             }
-
-            changed = true;
         }
 
         if (isInitial) {
             computedObservable["notifySubscribers"](state.latestValue, "awake");
         }
-
-        return changed;
     },
     evaluateImmediate_CallReadThenEndDependencyDetection: function (state, dependencyDetectionContext) {
         // This function is really part of the evaluateImmediate_CallReadWithDependencyDetection logic.
@@ -2217,9 +2203,7 @@ var pureComputedOverrides = {
                 state.dependencyTracking = null;
                 state.dependenciesCount = 0;
                 state.isStale = true;
-                if (computedObservable.evaluateImmediate()) {
-                    computedObservable.updateVersion();
-                }
+                computedObservable.evaluateImmediate();
             } else {
                 // First put the dependencies in order
                 var dependeciesOrder = [];
@@ -2976,7 +2960,7 @@ ko.exportSymbol('bindingProvider', ko.bindingProvider);
 
     // The ko.bindingContext constructor is only called directly to create the root context. For child
     // contexts, use bindingContext.createChildContext or bindingContext.extend.
-    ko.bindingContext = function(dataItemOrAccessor, parentContext, dataItemAlias, extendCallback, options) {
+    ko.bindingContext = function(dataItemOrAccessor, parentContext, dataItemAlias, extendCallback) {
 
         // The binding context object includes static properties for the current, parent, and root view models.
         // If a view model is actually stored in an observable, the corresponding binding context object, and
@@ -2999,7 +2983,10 @@ ko.exportSymbol('bindingProvider', ko.bindingProvider);
                 ko.utils.extend(self, parentContext);
 
                 // Because the above copy overwrites our own properties, we need to reset them.
-                self._subscribable = subscribable;
+                // During the first execution, "subscribable" isn't set, so don't bother doing the update then.
+                if (subscribable) {
+                    self._subscribable = subscribable;
+                }
             } else {
                 self['$parents'] = [];
                 self['$root'] = dataItem;
@@ -3029,43 +3016,35 @@ ko.exportSymbol('bindingProvider', ko.bindingProvider);
         var self = this,
             isFunc = typeof(dataItemOrAccessor) == "function" && !ko.isObservable(dataItemOrAccessor),
             nodes,
-            subscribable;
-
-        if (options && options['exportDependencies']) {
-            // The "exportDependencies" option means that the calling code will track any dependencies and re-create
-            // the binding context when they change.
-            updateContext();
-        } else {
             subscribable = ko.dependentObservable(updateContext, null, { disposeWhen: disposeWhen, disposeWhenNodeIsRemoved: true });
 
-            // At this point, the binding context has been initialized, and the "subscribable" computed observable is
-            // subscribed to any observables that were accessed in the process. If there is nothing to track, the
-            // computed will be inactive, and we can safely throw it away. If it's active, the computed is stored in
-            // the context object.
-            if (subscribable.isActive()) {
-                self._subscribable = subscribable;
+        // At this point, the binding context has been initialized, and the "subscribable" computed observable is
+        // subscribed to any observables that were accessed in the process. If there is nothing to track, the
+        // computed will be inactive, and we can safely throw it away. If it's active, the computed is stored in
+        // the context object.
+        if (subscribable.isActive()) {
+            self._subscribable = subscribable;
 
-                // Always notify because even if the model ($data) hasn't changed, other context properties might have changed
-                subscribable['equalityComparer'] = null;
+            // Always notify because even if the model ($data) hasn't changed, other context properties might have changed
+            subscribable['equalityComparer'] = null;
 
-                // We need to be able to dispose of this computed observable when it's no longer needed. This would be
-                // easy if we had a single node to watch, but binding contexts can be used by many different nodes, and
-                // we cannot assume that those nodes have any relation to each other. So instead we track any node that
-                // the context is attached to, and dispose the computed when all of those nodes have been cleaned.
+            // We need to be able to dispose of this computed observable when it's no longer needed. This would be
+            // easy if we had a single node to watch, but binding contexts can be used by many different nodes, and
+            // we cannot assume that those nodes have any relation to each other. So instead we track any node that
+            // the context is attached to, and dispose the computed when all of those nodes have been cleaned.
 
-                // Add properties to *subscribable* instead of *self* because any properties added to *self* may be overwritten on updates
-                nodes = [];
-                subscribable._addNode = function(node) {
-                    nodes.push(node);
-                    ko.utils.domNodeDisposal.addDisposeCallback(node, function(node) {
-                        ko.utils.arrayRemoveItem(nodes, node);
-                        if (!nodes.length) {
-                            subscribable.dispose();
-                            self._subscribable = subscribable = undefined;
-                        }
-                    });
-                };
-            }
+            // Add properties to *subscribable* instead of *self* because any properties added to *self* may be overwritten on updates
+            nodes = [];
+            subscribable._addNode = function(node) {
+                nodes.push(node);
+                ko.utils.domNodeDisposal.addDisposeCallback(node, function(node) {
+                    ko.utils.arrayRemoveItem(nodes, node);
+                    if (!nodes.length) {
+                        subscribable.dispose();
+                        self._subscribable = subscribable = undefined;
+                    }
+                });
+            };
         }
     }
 
@@ -3074,7 +3053,7 @@ ko.exportSymbol('bindingProvider', ko.bindingProvider);
     // But this does not mean that the $data value of the child context will also get updated. If the child
     // view model also depends on the parent view model, you must provide a function that returns the correct
     // view model on each update.
-    ko.bindingContext.prototype['createChildContext'] = function (dataItemOrAccessor, dataItemAlias, extendCallback, options) {
+    ko.bindingContext.prototype['createChildContext'] = function (dataItemOrAccessor, dataItemAlias, extendCallback) {
         return new ko.bindingContext(dataItemOrAccessor, this, dataItemAlias, function(self, parentContext) {
             // Extend the context hierarchy by setting the appropriate pointers
             self['$parentContext'] = parentContext;
@@ -3083,7 +3062,7 @@ ko.exportSymbol('bindingProvider', ko.bindingProvider);
             self['$parents'].unshift(self['$parent']);
             if (extendCallback)
                 extendCallback(self);
-        }, options);
+        });
     };
 
     // Extend the binding context with new custom properties. This doesn't change the context hierarchy.
@@ -3098,10 +3077,6 @@ ko.exportSymbol('bindingProvider', ko.bindingProvider);
             self['$rawData'] = parentContext['$rawData'];
             ko.utils.extend(self, typeof(properties) == "function" ? properties() : properties);
         });
-    };
-
-    ko.bindingContext.prototype.createStaticChildContext = function (dataItemOrAccessor, dataItemAlias) {
-        return this['createChildContext'](dataItemOrAccessor, dataItemAlias, null, { "exportDependencies": true });
     };
 
     // Returns the valueAccesor function for a binding value
@@ -4348,8 +4323,7 @@ function makeWithIfBinding(bindingKey, isWith, isNot, makeContextCallback) {
             var didDisplayOnLastUpdate,
                 savedNodes;
             ko.computed(function() {
-                var rawValue = valueAccessor(),
-                    dataValue = ko.utils.unwrapObservable(rawValue),
+                var dataValue = ko.utils.unwrapObservable(valueAccessor()),
                     shouldDisplay = !isNot !== !dataValue, // equivalent to isNot ? !dataValue : !!dataValue
                     isFirstRender = !savedNodes,
                     needsRefresh = isFirstRender || isWith || (shouldDisplay !== didDisplayOnLastUpdate);
@@ -4364,7 +4338,7 @@ function makeWithIfBinding(bindingKey, isWith, isNot, makeContextCallback) {
                         if (!isFirstRender) {
                             ko.virtualElements.setDomNodeChildren(element, ko.utils.cloneNodes(savedNodes));
                         }
-                        ko.applyBindingsToDescendants(makeContextCallback ? makeContextCallback(bindingContext, rawValue) : bindingContext, element);
+                        ko.applyBindingsToDescendants(makeContextCallback ? makeContextCallback(bindingContext, dataValue) : bindingContext, element);
                     } else {
                         ko.virtualElements.emptyNode(element);
                     }
@@ -4384,7 +4358,7 @@ makeWithIfBinding('if');
 makeWithIfBinding('ifnot', false /* isWith */, true /* isNot */);
 makeWithIfBinding('with', true /* isWith */, false /* isNot */,
     function(bindingContext, dataValue) {
-        return bindingContext.createStaticChildContext(dataValue);
+        return bindingContext['createChildContext'](dataValue);
     }
 );
 var captionPlaceholder = {};
@@ -5345,7 +5319,7 @@ ko.exportSymbol('__tr_ambtns', ko.templateRewriting.applyMemoizedBindingsToNextS
                     // Ensure we've got a proper binding context to work with
                     var bindingContext = (dataOrBindingContext && (dataOrBindingContext instanceof ko.bindingContext))
                         ? dataOrBindingContext
-                        : new ko.bindingContext(dataOrBindingContext, null, null, null, { "exportDependencies": true });
+                        : new ko.bindingContext(ko.utils.unwrapObservable(dataOrBindingContext));
 
                     var templateName = resolveTemplateName(template, bindingContext['$data'], bindingContext),
                         renderedNodesArray = executeTemplate(targetNodeOrNodeArray, renderMode, templateName, bindingContext, options);
@@ -5446,6 +5420,7 @@ ko.exportSymbol('__tr_ambtns', ko.templateRewriting.applyMemoizedBindingsToNextS
         },
         'update': function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var value = valueAccessor(),
+                dataValue,
                 options = ko.utils.unwrapObservable(value),
                 shouldDisplay = true,
                 templateComputed = null,
@@ -5462,6 +5437,8 @@ ko.exportSymbol('__tr_ambtns', ko.templateRewriting.applyMemoizedBindingsToNextS
                     shouldDisplay = ko.utils.unwrapObservable(options['if']);
                 if (shouldDisplay && 'ifnot' in options)
                     shouldDisplay = !ko.utils.unwrapObservable(options['ifnot']);
+
+                dataValue = ko.utils.unwrapObservable(options['data']);
             }
 
             if ('foreach' in options) {
@@ -5473,7 +5450,7 @@ ko.exportSymbol('__tr_ambtns', ko.templateRewriting.applyMemoizedBindingsToNextS
             } else {
                 // Render once for this single data point (or use the viewModel if no data was provided)
                 var innerBindingContext = ('data' in options) ?
-                    bindingContext.createStaticChildContext(options['data'], options['as']) :  // Given an explitit 'data' value, we create a child binding context for it
+                    bindingContext['createChildContext'](dataValue, options['as']) :  // Given an explitit 'data' value, we create a child binding context for it
                     bindingContext;                                                        // Given no explicit 'data' value, we retain the same binding context
                 templateComputed = ko.renderTemplate(templateName || element, innerBindingContext, options, element);
             }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MultiUserBlock.Common.Repository;
@@ -13,15 +15,19 @@ namespace MultiUserBlock.Web.Controllers
     public class AdminController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly HttpContext _httpContext;
 
-        public AdminController(IUserRepository UserRepository)
+        public AdminController(IUserRepository UserRepository, IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = UserRepository;
+            _httpContext = httpContextAccessor.HttpContext;
         }
 
         [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> Index()
         {
+            var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
+
             var result = await _userRepository.GetAll();
             result.Insert(0, new UserViewModel()
             {
@@ -32,7 +38,8 @@ namespace MultiUserBlock.Web.Controllers
 
             return View(new AdminViewModel()
             {
-                Users = result
+                Users = result,
+                CurrentUser = await _userRepository.GetById(id)
             });
         }
 

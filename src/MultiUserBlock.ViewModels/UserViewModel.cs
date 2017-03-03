@@ -22,6 +22,7 @@ namespace MultiUserBlock.ViewModels
 
         public string Password { get; set; }
 
+        public LayoutThemeViewModel LayoutThemeViewModel { get; set; }
         public IEnumerable<int> Roles { get; set; }
     }
 }

@@ -7,5 +7,6 @@ namespace MultiUserBlock.ViewModels
 {
     public class HomeViewModel
     {
+        public UserViewModel CurrentUser { get; set; }
     }
 }

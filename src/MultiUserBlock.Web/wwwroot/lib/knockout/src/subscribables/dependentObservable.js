@@ -210,8 +210,7 @@ var computedFn = {
     evaluateImmediate: function (notifyChange) {
         var computedObservable = this,
             state = computedObservable[computedState],
-            disposeWhen = state.disposeWhen,
-            changed = false;
+            disposeWhen = state.disposeWhen;
 
         if (state.isBeingEvaluated) {
             // If the evaluation of a ko.computed causes side effects, it's possible that it will trigger its own re-evaluation.
@@ -239,7 +238,7 @@ var computedFn = {
 
         state.isBeingEvaluated = true;
         try {
-            changed = this.evaluateImmediate_CallReadWithDependencyDetection(notifyChange);
+            this.evaluateImmediate_CallReadWithDependencyDetection(notifyChange);
         } finally {
             state.isBeingEvaluated = false;
         }
@@ -247,8 +246,6 @@ var computedFn = {
         if (!state.dependenciesCount) {
             computedObservable.dispose();
         }
-
-        return changed;
     },
     evaluateImmediate_CallReadWithDependencyDetection: function (notifyChange) {
         // This function is really just part of the evaluateImmediate logic. You would never call it from anywhere else.
@@ -256,8 +253,7 @@ var computedFn = {
         // which contributes to saving about 40% off the CPU overhead of computed evaluation (on V8 at least).
 
         var computedObservable = this,
-            state = computedObservable[computedState],
-            changed = false;
+            state = computedObservable[computedState];
 
         // Initially, we assume that none of the subscriptions are still being used (i.e., all are candidates for disposal).
         // Then, during evaluation, we cross off any that are in fact still being used.
@@ -286,22 +282,17 @@ var computedFn = {
             }
 
             state.latestValue = newValue;
-            if (DEBUG) computedObservable._latestValue = newValue;
 
             if (state.isSleeping) {
                 computedObservable.updateVersion();
             } else if (notifyChange) {
                 computedObservable["notifySubscribers"](state.latestValue);
             }
-
-            changed = true;
         }
 
         if (isInitial) {
             computedObservable["notifySubscribers"](state.latestValue, "awake");
         }
-
-        return changed;
     },
     evaluateImmediate_CallReadThenEndDependencyDetection: function (state, dependencyDetectionContext) {
         // This function is really part of the evaluateImmediate_CallReadWithDependencyDetection logic.
@@ -375,9 +366,7 @@ var pureComputedOverrides = {
                 state.dependencyTracking = null;
                 state.dependenciesCount = 0;
                 state.isStale = true;
-                if (computedObservable.evaluateImmediate()) {
-                    computedObservable.updateVersion();
-                }
+                computedObservable.evaluateImmediate();
             } else {
                 // First put the dependencies in order
                 var dependeciesOrder = [];

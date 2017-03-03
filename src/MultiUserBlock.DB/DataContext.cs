@@ -16,12 +16,16 @@ namespace MultiUserBlock.DB
         public DbSet<User> Users { get; set; }
         public DbSet<RoleToUser> RoleToUsers { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<LayoutTheme> LayoutThemes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<RoleToUser>().HasKey(t => new { t.UserId, t.RoleId });
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.Role).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.RoleId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.User).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.UserId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<LayoutTheme>().HasKey(lt => lt.ThemeId);
+            modelBuilder.Entity<User>().HasOne(u => u.LayoutTheme);
         }
     }
 }

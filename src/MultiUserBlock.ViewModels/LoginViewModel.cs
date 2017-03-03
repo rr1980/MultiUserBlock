@@ -16,5 +16,7 @@ namespace MultiUserBlock.ViewModels
         public string Password { get; set; } = "12003";
         [Required]
         public string ReturnUrl { get; set; }
+
+        public UserViewModel CurrentUser { get; set; }
     }
 }

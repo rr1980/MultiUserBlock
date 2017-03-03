@@ -23,6 +23,12 @@
 
 
 <script>
+
+    $(function () {
+        var themesheet = $('<link href="@Model.CurrentUser.LayoutThemeViewModel.Link" rel="stylesheet" />');
+        themesheet.appendTo('head');
+    });
+
     $(document).ready(function () {
         var viewmodel = new ViewModels.HomeViewData(@Html.Raw(Json.Serialize(Model)));
         ko.applyBindings(viewmodel, document.getElementById('homeView'));

@@ -32,6 +32,7 @@ namespace MultiUserBlock.DB
                     Name = user.Name,
                     Vorname = user.Vorname,
                     Password = user.Password,
+                    LayoutTheme = await _context.LayoutThemes.SingleOrDefaultAsync(lt=>lt.Name=="default")
                 };
 
                 List<RoleToUser> rtus = new List<RoleToUser>();
@@ -53,6 +54,7 @@ namespace MultiUserBlock.DB
                 ex.Name = user.Name;
                 ex.Vorname = user.Vorname;
                 ex.Username = user.Username;
+                ex.LayoutTheme = await _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.ThemeId == user.LayoutThemeViewModel.Id);
                 //ex.Password = user.Password;
                 List<RoleToUser> rtus = new List<RoleToUser>();
                 foreach (var role in user.Roles)
@@ -89,35 +91,35 @@ namespace MultiUserBlock.DB
 
         public async Task<List<UserViewModel>> GetAll()
         {
-            return await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Select(r => _map(r)).ToListAsync();
+            return await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt=>lt.LayoutTheme).Select(r => _map(r)).ToListAsync();
         }
 
         public async Task<UserViewModel> GetById(int userId)
         {
-            return _map(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.UserId == userId));
+            return _map(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.UserId == userId));
         }
 
         public async Task<UserViewModel> GetByUserName(string userName)
         {
-            return _map(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.Username == userName));
+            return _map(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.Username == userName));
         }
 
         public async Task<bool> HasRole(int userId, UserRoleType urt)
         {
-            var result = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.UserId == userId);
+            var result = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.UserId == userId);
 
             return result.RoleToUsers.Any(rtu => rtu.Role.UserRoleType == urt);
         }
 
         public async Task Remove(int userId)
         {
-            _db.Remove(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.UserId == userId));
+            _db.Remove(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.UserId == userId));
             _context.SaveChanges();
         }
 
         public async Task ResetPassword(int userId)
         {
-            var ex = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.UserId == userId);
+            var ex = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.UserId == userId);
             if (ex == null)
             {
                 return;
@@ -141,7 +143,13 @@ namespace MultiUserBlock.DB
                     Name = user.Name,
                     Vorname = user.Vorname,
                     Password = user.Password,
-                    Roles = user.RoleToUsers.Select(r => r.Role).Select(r => (int)r.UserRoleType)
+                    Roles = user.RoleToUsers.Select(r => r.Role).Select(r => (int)r.UserRoleType),
+                    LayoutThemeViewModel = new LayoutThemeViewModel()
+                    {
+                        Id = user.LayoutTheme.ThemeId,
+                        Name = user.LayoutTheme.Name,
+                        Link = user.LayoutTheme.Link
+                    }
                 };
             }
             else
@@ -161,7 +169,8 @@ namespace MultiUserBlock.DB
                     Name = user.Name,
                     Vorname = user.Vorname,
                     Password = user.Password,
-                };
+                    LayoutTheme = _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.ThemeId == user.LayoutThemeViewModel.Id).Result
+            };
 
                 List<RoleToUser> rtus = new List<RoleToUser>();
                 foreach (var role in user.Roles)
