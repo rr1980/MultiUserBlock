@@ -1,0 +1,52 @@
+﻿@model  MultiUserBlock.ViewModels.OptionViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@await Component.InvokeAsync(nameof(NavbarComponent))
+
+<div id="optionenView" class="view container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading clearfix">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="control-label">Benutzer</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <th_li th-label="Username" th-input="currentUser.username" th-col="4"></th_li>
+                        <th_li th-label="Name" th-input="currentUser.name" th-col="4"></th_li>
+                        <th_li th-label="Vorname" th-input="currentUser.vorname" th-col="4"></th_li>
+                    </div>
+                    <div class="row row-buffTop">
+                        <th_crud class="col-md-4"
+                                 th-show-edit="false"
+                                 th-show-insert="false">
+                        </th_crud>
+                    </div>
+                    <div class="row row-buffTop">
+                        <ul id="errors"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+        var themesheet = $('<link href="@Model.CurrentUser.LayoutThemeViewModel.Link" rel="stylesheet" />');
+        themesheet.appendTo('head');
+    });
+
+    $(document).ready(function () {
+        var viewmodel = new ViewModels.OptionViewData(@Html.Raw(Json.Serialize(Model)));
+        ko.applyBindings(viewmodel, document.getElementById('optionenView'));
+    });
+</script>

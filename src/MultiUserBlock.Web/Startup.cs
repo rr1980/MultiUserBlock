@@ -48,7 +48,7 @@ namespace MultiUserBlock.Web
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ReadPolicy", policy => policy.Requirements.Add(new AuthPolicyRequirement(UserRoleType.Default)));
+                options.AddPolicy("DefaultPolicy", policy => policy.Requirements.Add(new AuthPolicyRequirement(UserRoleType.Default)));
                 options.AddPolicy("AdminPolicy", policy => policy.Requirements.Add(new AuthPolicyRequirement(UserRoleType.Admin)));
             });
 

@@ -43,6 +43,7 @@ namespace MultiUserBlock.Web.Controllers
             });
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<AdminViewModel> SaveUser(UserViewModel user)
         {
             List<UserViewModel> result;
@@ -79,11 +80,13 @@ namespace MultiUserBlock.Web.Controllers
             };
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         public async Task ResetPassord(UserViewModel user)
         {
             await _userRepository.ResetPassword(user.UserId);
         }
 
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<AdminViewModel> DelUser(UserViewModel user)
         {
             await _userRepository.Remove(user.UserId);
@@ -101,13 +104,14 @@ namespace MultiUserBlock.Web.Controllers
             };
         }
 
+        [Authorize]
         public IActionResult Error()
         {
             return View();
         }
 
 
-        public List<string> GetModelStateErrors(ModelStateDictionary ModelState)
+        private List<string> GetModelStateErrors(ModelStateDictionary ModelState)
         {
             List<string> errorMessages = new List<string>();
 

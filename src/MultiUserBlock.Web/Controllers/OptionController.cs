@@ -11,12 +11,12 @@ using MultiUserBlock.ViewModels;
 
 namespace MultiUserBlock.Web.Controllers
 {
-    public class HomeController : Controller
+    public class OptionController : Controller
     {
         private readonly IUserRepository _userRepository;
         private readonly HttpContext _httpContext;
 
-        public HomeController(IUserRepository UserRepository, IHttpContextAccessor httpContextAccessor)
+        public OptionController(IUserRepository UserRepository, IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = UserRepository;
             _httpContext = httpContextAccessor.HttpContext;
@@ -27,16 +27,11 @@ namespace MultiUserBlock.Web.Controllers
         {
             var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            return View(new HomeViewModel()
+            return View(new OptionViewModel()
             {
                 CurrentUser = await _userRepository.GetById(id)
             });
         }
 
-        [Authorize]
-        public IActionResult Error()
-        {
-            return View();
-        }
     }
 }
