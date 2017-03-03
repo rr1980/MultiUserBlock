@@ -97,7 +97,7 @@ namespace MultiUserBlock.Tests
             {
                 applicationConfiguration(builder);
             }
-            app.Configure(builder, builder.ApplicationServices);
+            app.Configure(builder, dataContext, builder.ApplicationServices);
         }
     }
 }

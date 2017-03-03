@@ -64,7 +64,7 @@ namespace MultiUserBlock.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env = null, ILoggerFactory loggerFactory = null)
+        public void Configure(IApplicationBuilder app, DataContext ctx, IServiceProvider serviceProvider, IHostingEnvironment env = null, ILoggerFactory loggerFactory = null)
         {
             if (loggerFactory != null)
             {
@@ -121,6 +121,8 @@ namespace MultiUserBlock.Web
             app.MapWebSocketManager("/admins", serviceProvider.GetService<AdminMessageHandler>());
             app.MapWebSocketManager("/notifications", serviceProvider.GetService<NotificationsMessageHandler>());
 
+
+            SeedData.Seed(ctx);
         }
     }
 }

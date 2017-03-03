@@ -15,10 +15,12 @@ namespace MultiUserBlock.Web
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
+                .UseStartup<Startup>();
 
-            host.Run();
+            host.CaptureStartupErrors(true);
+            host.UseSetting("detailedErrors", "true");
+
+            host.Build().Run();
         }
     }
 }
