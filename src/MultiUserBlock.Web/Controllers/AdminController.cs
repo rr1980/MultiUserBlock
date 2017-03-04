@@ -14,12 +14,12 @@ namespace MultiUserBlock.Web.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IRepository _repository;
         private readonly HttpContext _httpContext;
 
-        public AdminController(IUserRepository UserRepository, IHttpContextAccessor httpContextAccessor)
+        public AdminController(IRepository Repository, IHttpContextAccessor httpContextAccessor)
         {
-            _userRepository = UserRepository;
+            _repository = Repository;
             _httpContext = httpContextAccessor.HttpContext;
         }
 
@@ -28,7 +28,7 @@ namespace MultiUserBlock.Web.Controllers
         {
             var id = Convert.ToInt32(_httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            var result = await _userRepository.GetAll();
+            var result = await _repository.GetAll();
             result.Insert(0, new UserViewModel()
             {
                 UserId = -1,
@@ -39,7 +39,7 @@ namespace MultiUserBlock.Web.Controllers
             return View(new AdminViewModel()
             {
                 Users = result,
-                CurrentUser = await _userRepository.GetById(id)
+                CurrentUser = await _repository.GetById(id)
             });
         }
 
@@ -50,7 +50,7 @@ namespace MultiUserBlock.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                result = await _userRepository.GetAll();
+                result = await _repository.GetAll();
                 result.Insert(0, new UserViewModel()
                 {
                     UserId = -1,
@@ -65,8 +65,8 @@ namespace MultiUserBlock.Web.Controllers
                 };
             }
 
-            await _userRepository.AddOrUpdate(user);
-            result = await _userRepository.GetAll();
+            await _repository.AddOrUpdate(user);
+            result = await _repository.GetAll();
             result.Insert(0, new UserViewModel()
             {
                 UserId = -1,
@@ -83,14 +83,14 @@ namespace MultiUserBlock.Web.Controllers
         [Authorize(Policy = "AdminPolicy")]
         public async Task ResetPassord(UserViewModel user)
         {
-            await _userRepository.ResetPassword(user.UserId);
+            await _repository.ResetPassword(user.UserId);
         }
 
         [Authorize(Policy = "AdminPolicy")]
         public async Task<AdminViewModel> DelUser(UserViewModel user)
         {
-            await _userRepository.Remove(user.UserId);
-            var result = await _userRepository.GetAll();
+            await _repository.Remove(user.UserId);
+            var result = await _repository.GetAll();
             result.Insert(0, new UserViewModel()
             {
                 UserId = -1,

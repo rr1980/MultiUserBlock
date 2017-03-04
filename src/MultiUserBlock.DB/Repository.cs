@@ -10,12 +10,12 @@ using MultiUserBlock.ViewModels;
 
 namespace MultiUserBlock.DB
 {
-    public class UserRepository : IUserRepository
+    public class Repository : IRepository
     {
         private readonly DataContext _context;
         private readonly DbSet<User> _db;
 
-        public UserRepository(DataContext context)
+        public Repository(DataContext context)
         {
             _context = context;
             _db = context.Set<User>();

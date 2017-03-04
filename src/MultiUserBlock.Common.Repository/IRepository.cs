@@ -7,7 +7,7 @@ using MultiUserBlock.ViewModels;
 
 namespace MultiUserBlock.Common.Repository
 {
-    public interface IUserRepository
+    public interface IRepository
     {
         Task<List<UserViewModel>> GetAll();
         Task<UserViewModel> GetById(int userId);

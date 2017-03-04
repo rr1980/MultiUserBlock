@@ -1,6 +1,4 @@
-﻿
-
-var adminViewModelTestData = {
+﻿var adminViewModelTestData = {
     users: [
         {
             userId: 1,
@@ -24,7 +22,7 @@ var adminViewModelTestData = {
             ]
         }
     ],
-    erros: []
+    errors: null
 };
 
 

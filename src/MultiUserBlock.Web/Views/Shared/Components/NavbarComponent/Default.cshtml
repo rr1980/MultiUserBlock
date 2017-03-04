@@ -1,7 +1,7 @@
 ﻿@model  MultiUserBlock.ViewModels.NavbarViewModel
 @using MultiUserBlock.Common.Repository
 @using MultiUserBlock.Common
-    @inject  IUserRepository _userRepository
+    @inject  IRepository _Repository
 
     <div id="navbarContent" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
@@ -19,7 +19,7 @@
                     <ul class="nav navbar-nav navbar-left">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-area="" asp-controller="Option" asp-action="Index">Option</a></li>
-                        @if (await _userRepository.HasRole(Model.UserViewModel.UserId, UserRoleType.Admin))
+                        @if (await _Repository.HasRole(Model.UserViewModel.UserId, UserRoleType.Admin))
                         {
                             <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
                         }

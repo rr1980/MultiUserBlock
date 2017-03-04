@@ -17,19 +17,19 @@ namespace MultiUserBlock.Web.WebSocketHandlers
     public class AdminMessageHandler : WebSocketHandler, IAdminMessageHandler
     {
         private readonly UserRoleType urt = UserRoleType.Admin;
-        private readonly IUserRepository _userRepository;
+        private readonly IRepository _repository;
 
 
-        public AdminMessageHandler(WebSocketConnectionManager webSocketConnectionManager, IUserRepository UserRepository) : base(webSocketConnectionManager)
+        public AdminMessageHandler(WebSocketConnectionManager webSocketConnectionManager, IRepository Repository) : base(webSocketConnectionManager)
         {
-            _userRepository = UserRepository;
+            _repository = Repository;
         }
 
         public async void SaveUser(WebSocket socket, HttpContext httpContext, dynamic user)
         {
             var id = Convert.ToInt32(httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
 
-            if (!await _userRepository.HasRole(id, urt))
+            if (!await _repository.HasRole(id, urt))
             {
                 return;
             }

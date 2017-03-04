@@ -16,12 +16,12 @@ namespace MultiUserBlock.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IRepository _repository;
         private readonly HttpContext _httpContext;
 
-        public AccountController(IUserRepository UserRepository, IHttpContextAccessor httpContextAccessor)
+        public AccountController(IRepository Repository, IHttpContextAccessor httpContextAccessor)
         {
-            _userRepository = UserRepository;
+            _repository = Repository;
             _httpContext = httpContextAccessor.HttpContext;
         }
 
@@ -72,7 +72,7 @@ namespace MultiUserBlock.Web.Controllers
         private async Task<bool> _auth(string username, string password)
         {
             password = password ?? string.Empty;
-            var user = await _userRepository.GetByUserName(username);
+            var user = await _repository.GetByUserName(username);
 
             if (user == null || (user.Password != password))
             {

@@ -12,12 +12,12 @@ namespace MultiUserBlock.Web.ViewComponents
 {
     public class NavbarComponent : ViewComponent
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IRepository _repository;
         private readonly HttpContext _httpContext;
 
-        public NavbarComponent(IUserRepository UserRepository, IHttpContextAccessor httpContextAccessor)
+        public NavbarComponent(IRepository repository, IHttpContextAccessor httpContextAccessor)
         {
-            _userRepository = UserRepository;
+            _repository = repository;
             _httpContext = httpContextAccessor.HttpContext;
         }
 
@@ -27,7 +27,7 @@ namespace MultiUserBlock.Web.ViewComponents
 
             return View(new NavbarViewModel()
             {
-                UserViewModel = await _userRepository.GetById(id)
+                UserViewModel = await _repository.GetById(id)
             });
         }
     }

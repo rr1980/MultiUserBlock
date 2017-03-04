@@ -13,12 +13,12 @@ namespace MultiUserBlock.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IRepository _repository;
         private readonly HttpContext _httpContext;
 
-        public HomeController(IUserRepository UserRepository, IHttpContextAccessor httpContextAccessor)
+        public HomeController(IRepository Repository, IHttpContextAccessor httpContextAccessor)
         {
-            _userRepository = UserRepository;
+            _repository = Repository;
             _httpContext = httpContextAccessor.HttpContext;
         }
 
@@ -29,7 +29,7 @@ namespace MultiUserBlock.Web.Controllers
 
             return View(new HomeViewModel()
             {
-                CurrentUser = await _userRepository.GetById(id)
+                CurrentUser = await _repository.GetById(id)
             });
         }
 

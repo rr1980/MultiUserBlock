@@ -13,12 +13,12 @@ namespace MultiUserBlock.Web.Controllers
 {
     public class OptionController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IRepository _repository;
         private readonly HttpContext _httpContext;
 
-        public OptionController(IUserRepository UserRepository, IHttpContextAccessor httpContextAccessor)
+        public OptionController(IRepository Repository, IHttpContextAccessor httpContextAccessor)
         {
-            _userRepository = UserRepository;
+            _repository = Repository;
             _httpContext = httpContextAccessor.HttpContext;
         }
 
@@ -29,8 +29,8 @@ namespace MultiUserBlock.Web.Controllers
 
             return View(new OptionViewModel()
             {
-                CurrentUser = await _userRepository.GetById(id),
-                LayoutThemeViewModels = await _userRepository.GetAllThemes()
+                CurrentUser = await _repository.GetById(id),
+                LayoutThemeViewModels = await _repository.GetAllThemes()
             });
         }
 
@@ -38,7 +38,7 @@ namespace MultiUserBlock.Web.Controllers
         public async Task<bool> SaveUser(UserViewModel user)
         {
 
-            await _userRepository.AddOrUpdate(user);
+            await _repository.AddOrUpdate(user);
 
 
             return true;

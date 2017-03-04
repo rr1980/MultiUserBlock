@@ -10,9 +10,9 @@ using MultiUserBlock.Common.Repository;
 namespace MultiUserBlock.Tests.Test_Services
 {
     [TestClass, Area("Rene")]
-    public class Test_UserRepository : Test_Base
+    public class Test_Repository : Test_Base
     {
-        private IUserRepository _userRepository;
+        private IRepository _repository;
 
         [TestInitialize]
         [TestCategory("Smoke")]
@@ -20,15 +20,15 @@ namespace MultiUserBlock.Tests.Test_Services
         {
             base.TestInitialize();
 
-            _userRepository = (IUserRepository)_testServer.Host.Services.GetService(typeof(IUserRepository));
-            Assert.IsNotNull(_userRepository);
+            _repository = (IRepository)_testServer.Host.Services.GetService(typeof(IRepository));
+            Assert.IsNotNull(_repository);
         }
 
         [TestMethod]
         [TestCategory("Smoke")]
         public async Task GetAllUsers()
         {
-            var allUsers = await _userRepository.GetAll();
+            var allUsers = await _repository.GetAll();
             Assert.IsNotNull(allUsers);
             Assert.IsTrue(allUsers.Count() >= 2);
         }
@@ -40,7 +40,7 @@ namespace MultiUserBlock.Tests.Test_Services
         {
             await Task.Run(async () =>
             {
-                var user = await _userRepository.GetById(1);
+                var user = await _repository.GetById(1);
 
                 Assert.IsNotNull(user);
                 Assert.AreEqual("Riesner", user.Name);
@@ -57,12 +57,12 @@ namespace MultiUserBlock.Tests.Test_Services
         {
             await Task.Run(async () =>
             {
-                var user = await _userRepository.GetById(2);
+                var user = await _repository.GetById(2);
                 Assert.IsNotNull(user);
 
-                var hasRole = await _userRepository.HasRole(2, UserRoleType.Default);
+                var hasRole = await _repository.HasRole(2, UserRoleType.Default);
                 Assert.IsTrue(hasRole);
-                hasRole = await _userRepository.HasRole(2, UserRoleType.Admin);
+                hasRole = await _repository.HasRole(2, UserRoleType.Admin);
                 Assert.IsFalse(hasRole);
             });
         }
@@ -74,7 +74,7 @@ namespace MultiUserBlock.Tests.Test_Services
             await Task.Run(async () =>
             {
                 //var user = await (Task<UserViewModel>)typeof(AccountService).GetMethod("GetUserByNameAndPw", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(_accountService, new object[] { "rr1980", "123" });
-                var user = await _userRepository.GetByUserName("rr1980");
+                var user = await _repository.GetByUserName("rr1980");
                 Assert.IsNotNull(user);
                 Assert.AreEqual("Riesner", user.Name);
                 Assert.AreEqual("rr1980", user.ShowName);
@@ -82,7 +82,7 @@ namespace MultiUserBlock.Tests.Test_Services
                 Assert.AreEqual("rr1980", user.Username);
                 Assert.AreEqual("Rene", user.Vorname);
 
-                user = await _userRepository.GetByUserName("abc");
+                user = await _repository.GetByUserName("abc");
                 Assert.IsNull(user);
 
             });

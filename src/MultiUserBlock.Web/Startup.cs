@@ -52,7 +52,7 @@ namespace MultiUserBlock.Web
                 options.AddPolicy("AdminPolicy", policy => policy.Requirements.Add(new AuthPolicyRequirement(UserRoleType.Admin)));
             });
 
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IRepository, Repository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IAuthorizationHandler, AuthPolicyHandler>();
             // Add framework services.

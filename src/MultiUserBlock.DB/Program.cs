@@ -99,7 +99,7 @@ namespace MultiUserBlock.DB
                     Creater_Mieter.Create(context,
                         new Mieter
                         {
-                            Name = "Riesnerrr",
+                            Name = "Riesner",
                             Vorname = "Rene",
                             Strasse = "Am Annatal 11"
                         });
@@ -108,7 +108,7 @@ namespace MultiUserBlock.DB
                         new UserRoleType[] { UserRoleType.Admin, UserRoleType.Default },
                         new User
                         {
-                            Name = "Riesnerr",
+                            Name = "Riesner",
                             Vorname = "Rene",
                             Username = "rr1980",
                             Password = "12003",

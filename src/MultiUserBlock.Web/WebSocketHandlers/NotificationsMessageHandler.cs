@@ -15,17 +15,17 @@ namespace MultiUserBlock.Web.WebSocketHandlers
     public class NotificationsMessageHandler : WebSocketHandler, INotificationsMessageHandler
     {
         private readonly UserRoleType urt = UserRoleType.Default;
-        private readonly IUserRepository _userRepository;
+        private readonly IRepository _repository;
 
-        public NotificationsMessageHandler(WebSocketConnectionManager webSocketConnectionManager, IUserRepository UserRepository) : base(webSocketConnectionManager)
+        public NotificationsMessageHandler(WebSocketConnectionManager webSocketConnectionManager, IRepository Repository) : base(webSocketConnectionManager)
         {
-            _userRepository = UserRepository;
+            _repository = Repository;
         }
 
         public async void TestMethode(WebSocket socket, HttpContext httpContext, string name)
         {
             var id = Convert.ToInt32(httpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid).Value);
-            if (!await _userRepository.HasRole(id, urt))
+            if (!await _repository.HasRole(id, urt))
             {
                 return;
             }
