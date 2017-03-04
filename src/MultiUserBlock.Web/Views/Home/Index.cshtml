@@ -23,10 +23,8 @@
 
 
 <script>
-
     $(function () {
-        var themesheet = $('<link href="@Model.CurrentUser.LayoutThemeViewModel.Link" rel="stylesheet" />');
-        themesheet.appendTo('head');
+        $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
     });
 
     $(document).ready(function () {

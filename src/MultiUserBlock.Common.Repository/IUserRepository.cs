@@ -16,5 +16,6 @@ namespace MultiUserBlock.Common.Repository
         Task AddOrUpdate(UserViewModel user);
         Task<bool> HasRole(int userId, UserRoleType urt);
         Task ResetPassword(int userId);
+        Task<List<LayoutThemeViewModel>> GetAllThemes();
     }
 }

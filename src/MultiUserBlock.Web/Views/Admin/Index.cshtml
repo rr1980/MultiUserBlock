@@ -48,18 +48,8 @@
 </div>
 
 <script>
-
-    //var themesheet = $('<link href="' + themes['default'] + '" rel="stylesheet" />');
-    //themesheet.appendTo('head');
-    //$('.theme-link').click(function () {
-    //    var themeurl = themes[$(this).attr('data-theme')];
-    //    themesheet.attr('href', themeurl);
-    //});
-
-
     $(function () {
-        var themesheet = $('<link href="@Model.CurrentUser.LayoutThemeViewModel.Link" rel="stylesheet" />');
-        themesheet.appendTo('head');
+        $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
     });
 
     $(document).ready(function () {

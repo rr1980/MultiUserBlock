@@ -29,8 +29,19 @@ namespace MultiUserBlock.Web.Controllers
 
             return View(new OptionViewModel()
             {
-                CurrentUser = await _userRepository.GetById(id)
+                CurrentUser = await _userRepository.GetById(id),
+                LayoutThemeViewModels = await _userRepository.GetAllThemes()
             });
+        }
+
+        [Authorize(Policy = "DefaultPolicy")]
+        public async Task<bool> SaveUser(UserViewModel user)
+        {
+
+            await _userRepository.AddOrUpdate(user);
+
+
+            return true;
         }
 
     }

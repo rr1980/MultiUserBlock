@@ -55,7 +55,7 @@ namespace MultiUserBlock.DB
                 ex.Vorname = user.Vorname;
                 ex.Username = user.Username;
                 ex.LayoutTheme = await _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.ThemeId == user.LayoutThemeViewModel.Id);
-                //ex.Password = user.Password;
+                ex.Password = user.Password;
                 List<RoleToUser> rtus = new List<RoleToUser>();
                 foreach (var role in user.Roles)
                 {
@@ -79,14 +79,6 @@ namespace MultiUserBlock.DB
                 Console.WriteLine(e);
                 throw;
             }
-        }
-
-        private User _delRoles(User user)
-        {
-            var rtus = _context.RoleToUsers.Where(rtu => rtu.UserId == user.UserId);
-            _context.RemoveRange(rtus);
-            _context.SaveChanges();
-            return user;
         }
 
         public async Task<List<UserViewModel>> GetAll()
@@ -129,6 +121,23 @@ namespace MultiUserBlock.DB
                 ex.Password = "";
                 _context.SaveChanges();
             }
+        }
+
+        public async Task<List<LayoutThemeViewModel>> GetAllThemes()
+        {
+            return await _context.LayoutThemes.Select(lt=>_map(lt)).ToListAsync();
+        }
+
+        // Privates...
+
+        private LayoutThemeViewModel _map(LayoutTheme lt)
+        {
+            return new LayoutThemeViewModel()
+            {
+                Id = lt.ThemeId,
+                Name = lt.Name,
+                Link = lt.Link
+            };
         }
 
         private UserViewModel _map(User user)
@@ -191,5 +200,14 @@ namespace MultiUserBlock.DB
                 return default(User);
             }
         }
+
+        private User _delRoles(User user)
+        {
+            var rtus = _context.RoleToUsers.Where(rtu => rtu.UserId == user.UserId);
+            _context.RemoveRange(rtus);
+            _context.SaveChanges();
+            return user;
+        }
+
     }
 }

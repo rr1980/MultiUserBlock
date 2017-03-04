@@ -59,7 +59,7 @@ namespace MultiUserBlock.Web.TagHelpers
                 template += $"<label class='control-label'>{Label}</label>";
             }
 
-            template += $"<select class='form-control show-tick input-sm' data-style='btn btn-info btn-sm' data-bind='selectPicker: {Value}, optionsText: \"{OptionsText}\", optionsValue : \"{OptionsValue}\",  selectPickerOptions: {{ optionsArray: {Options} }}'></select>";
+            template += $"<select class='form-control show-tick input-sm' data-style='btn btn-info btn-sm' data-bind='selectPicker: {Value},value: {Value} ,optionsText: \"{OptionsText}\", optionsValue : \"{OptionsValue}\",  selectPickerOptions: {{ optionsArray: {Options} }}'></select>";
 
             output.Content.SetHtmlContent(template);
 
