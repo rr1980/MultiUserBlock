@@ -13,6 +13,8 @@ namespace MultiUserBlock.DB
             : base(options)
         { }
 
+        public DbSet<Mieter> Mieters { get; set; }
+        //public DbSet<Person> Persons { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<RoleToUser> RoleToUsers { get; set; }
         public DbSet<Role> Roles { get; set; }
@@ -24,8 +26,10 @@ namespace MultiUserBlock.DB
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.Role).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.RoleId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.User).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.UserId).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<LayoutTheme>().HasKey(lt => lt.ThemeId);
-            modelBuilder.Entity<User>().HasOne(u => u.LayoutTheme);
+            modelBuilder.Entity<LayoutTheme>().ToTable("LayoutTheme").HasKey(lt => lt.ThemeId);
+            modelBuilder.Entity<User>().ToTable("User").HasOne(u => u.LayoutTheme);
+            modelBuilder.Entity<Mieter>().ToTable("Mieter");
+
         }
     }
 }

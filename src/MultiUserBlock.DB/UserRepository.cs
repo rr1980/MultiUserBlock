@@ -23,7 +23,7 @@ namespace MultiUserBlock.DB
 
         public async Task AddOrUpdate(UserViewModel user)
         {
-            var ex = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.UserId == user.UserId);
+            var ex = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).SingleOrDefaultAsync(u => u.Id == user.UserId);
             if (ex == null)
             {
                 var usr = new User()
@@ -88,7 +88,7 @@ namespace MultiUserBlock.DB
 
         public async Task<UserViewModel> GetById(int userId)
         {
-            return _map(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.UserId == userId));
+            return _map(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.Id == userId));
         }
 
         public async Task<UserViewModel> GetByUserName(string userName)
@@ -98,20 +98,20 @@ namespace MultiUserBlock.DB
 
         public async Task<bool> HasRole(int userId, UserRoleType urt)
         {
-            var result = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.UserId == userId);
+            var result = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.Id == userId);
 
             return result.RoleToUsers.Any(rtu => rtu.Role.UserRoleType == urt);
         }
 
         public async Task Remove(int userId)
         {
-            _db.Remove(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.UserId == userId));
+            _db.Remove(await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.Id == userId));
             _context.SaveChanges();
         }
 
         public async Task ResetPassword(int userId)
         {
-            var ex = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.UserId == userId);
+            var ex = await _db.Include(u => u.RoleToUsers).ThenInclude(r => r.Role).Include(lt => lt.LayoutTheme).SingleOrDefaultAsync(u => u.Id == userId);
             if (ex == null)
             {
                 return;
@@ -146,7 +146,7 @@ namespace MultiUserBlock.DB
             {
                 return new UserViewModel()
                 {
-                    UserId = user.UserId,
+                    UserId = user.Id,
                     Username = user.Username,
                     ShowName = user.Username,
                     Name = user.Name,
@@ -173,7 +173,7 @@ namespace MultiUserBlock.DB
             {
                 var usr = new User()
                 {
-                    UserId = user.UserId,
+                    Id = user.UserId,
                     Username = user.Username,
                     Name = user.Name,
                     Vorname = user.Vorname,
@@ -203,7 +203,7 @@ namespace MultiUserBlock.DB
 
         private User _delRoles(User user)
         {
-            var rtus = _context.RoleToUsers.Where(rtu => rtu.UserId == user.UserId);
+            var rtus = _context.RoleToUsers.Where(rtu => rtu.UserId == user.Id);
             _context.RemoveRange(rtus);
             _context.SaveChanges();
             return user;
