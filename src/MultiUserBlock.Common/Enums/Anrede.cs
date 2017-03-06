@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MultiUserBlock.DB
+namespace MultiUserBlock.Common.Enums
 {
-    public class Mieter : Person
+    public enum Anrede
     {
-        public string WbsNummer { get; set; }
+        Herr,
+        Frau
     }
 }
