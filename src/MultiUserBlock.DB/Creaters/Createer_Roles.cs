@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MultiUserBlock.Common.Enums;
+using MultiUserBlock.DB.Entitys;
 
-namespace MultiUserBlock.DB
+namespace MultiUserBlock.DB.Creaters
 {
     public static class Createer_Roles
     {

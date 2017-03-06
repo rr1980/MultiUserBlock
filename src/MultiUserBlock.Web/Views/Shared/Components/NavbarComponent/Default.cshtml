@@ -21,7 +21,7 @@
                         <li><a asp-area="" asp-controller="Option" asp-action="Index">Option</a></li>
                         @if (await _Repository.HasRole(Model.UserViewModel.UserId, UserRoleType.Admin))
                         {
-                            <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+                            <li><a asp-area="" asp-controller="Admin" asp-action="Index">Bernutzerverwaltung</a></li>
                         }
                     </ul>
                     <ul class="nav navbar-nav navbar-right">

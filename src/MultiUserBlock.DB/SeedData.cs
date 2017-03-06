@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MultiUserBlock.Common.Enums;
 using MultiUserBlock.Common.Repository;
+using MultiUserBlock.DB.Creaters;
+using MultiUserBlock.DB.Entitys;
 
 namespace MultiUserBlock.DB
 {

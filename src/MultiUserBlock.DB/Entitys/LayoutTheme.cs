@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MultiUserBlock.DB
+namespace MultiUserBlock.DB.Entitys
 {
     public class LayoutTheme
     {

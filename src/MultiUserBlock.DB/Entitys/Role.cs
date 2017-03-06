@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using MultiUserBlock.Common.Enums;
 
-namespace MultiUserBlock.DB
+namespace MultiUserBlock.DB.Entitys
 {
     public class Role
     {

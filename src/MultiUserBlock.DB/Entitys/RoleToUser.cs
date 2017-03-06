@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MultiUserBlock.DB
+namespace MultiUserBlock.DB.Entitys
 {
     public class RoleToUser
     {

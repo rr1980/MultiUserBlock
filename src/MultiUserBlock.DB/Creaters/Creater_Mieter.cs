@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MultiUserBlock.Common.Enums;
+using MultiUserBlock.DB.Entitys;
 
-namespace MultiUserBlock.DB
+namespace MultiUserBlock.DB.Creaters
 {
     public static class Creater_Mieter
     {
@@ -13,7 +14,7 @@ namespace MultiUserBlock.DB
         {
             var directory = Directory.GetCurrentDirectory();
 
-            string[] allLines = File.ReadAllLines(Path.Combine(directory, "PersonsData.csv"));
+            string[] allLines = File.ReadAllLines(Path.Combine(directory, "./Datas/PersonsData.csv"));
 
             var lines = allLines.Skip(1);
 
