@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace MultiUserBlock.ViewModels
 {
-    public class NavbarViewModel
+    public class SideBarViewModel
     {
-        public bool ShowSidebar { get; set; }
-        public UserViewModel UserViewModel { get; set; }
     }
 }

@@ -1,51 +1,54 @@
 ﻿@model  MultiUserBlock.ViewModels.NavbarViewModel
 @using MultiUserBlock.Common.Repository
 @using MultiUserBlock.Common
-    @inject  IRepository _Repository
+@inject  IRepository _Repository
 
-    <div id="navbarContent" class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="col-md-12">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+<div id="navbarContent" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @if (Model.ShowSidebar)
+                {
+                    <button type="button" class="hamburger is-closed navbar-brand" data-toggle="offcanvas">
+                        <span class="hamb-top"></span>
+                        <span class="hamb-middle"></span>
+                        <span class="hamb-bottom"></span>
                     </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Main</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Option" asp-action="Index">Option</a></li>
-                        @if (await _Repository.HasRole(Model.UserViewModel.UserId, UserRoleType.Admin))
-                        {
-                            <li><a asp-area="" asp-controller="Admin" asp-action="Index">Bernutzerverwaltung</a></li>
-                        }
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <span class="navbar-brand usr-name" data-bind="text: userViewModel.username"></span>
-                        </li>
-                        <li>
-                            <form data-bind="submit: onClickLogout">
-                                @*﻿<a class="btn btn-info btn-sm navbar-btn" asp-controller="Account" asp-action="Logout">
-                                    <span class="glyphicon glyphicon-log-out"></span> Log out
-                                </a>*@
-
-                                <button type="submit" class="btn btn-info btn-sm navbar-btn">
-                                    <span class="glyphicon glyphicon-log-out"></span> Log out
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+                }
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Suche</a></li>
+                    <li><a asp-area="" asp-controller="Option" asp-action="Index">Option</a></li>
+                    @if (await _Repository.HasRole(Model.UserViewModel.UserId, UserRoleType.Admin))
+                    {
+                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">Bernutzerverwaltung</a></li>
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <span class="navbar-brand usr-name" data-bind="text: userViewModel.username"></span>
+                    </li>
+                    <li>
+                        <form data-bind="submit: onClickLogout">
+                            <button type="submit" class="btn btn-info btn-sm navbar-btn">
+                                <span class="glyphicon glyphicon-log-out"></span> Log out
+                            </button>
+                        </form>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        var viewmodel = new ViewModels.NavBarViewData(@Html.Raw(Json.Serialize(Model)));
-        ko.applyBindings(viewmodel, document.getElementById('navbarContent'));
-    </script>
+<script>
+    var viewmodel = new ViewModels.NavBarViewData(@Html.Raw(Json.Serialize(Model)));
+    ko.applyBindings(viewmodel, document.getElementById('navbarContent'));
+</script>

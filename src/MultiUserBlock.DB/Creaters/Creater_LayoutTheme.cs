@@ -13,7 +13,8 @@ namespace MultiUserBlock.DB.Creaters
         internal static void Create(DataContext context)
         {
             _context = context;
-            _build("default", "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
+            //_build("default", "//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
+            _build("default", "lib/bootstrap/dist/css/bootstrap.css");
             _build("amelia", "//bootswatch.com/amelia/bootstrap.min.css");
             _build("cerulean", "//bootswatch.com/cerulean/bootstrap.min.css");
             _build("cosmo", "//bootswatch.com/cosmo/bootstrap.min.css");

@@ -3,31 +3,70 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<div id="wrapper">
 
-@await Component.InvokeAsync(nameof(NavbarComponent))
+    @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true })
+    @await Component.InvokeAsync(nameof(SidebarComponent))
 
-<div id="homeView" class="container-fluid">
-    <h1>
-        Hallo...
-    </h1>
+    <div id="page-content-wrapper">
 
-    <input type=text id="textInput" placeholder="Enter your text" data-bind="value: tinput" />
-    <button id="sendButton" data-bind="click: onClickSend">Send</button>
+        <div id="homeView" class="container-fluid">
 
-    <ul id="messages" data-bind="foreach: msgs">
-        <li>
-            <span data-bind="text: $data"></span>
-        </li>
-    </ul>
+            <h1>
+                Hallo...
+            </h1>
+
+            <input type=text id="textInput" placeholder="Enter your text" data-bind="value: tinput" />
+            <button id="sendButton" data-bind="click: onClickSend">Send</button>
+
+            <ul id="messages" data-bind="foreach: msgs">
+                <li>
+                    <span data-bind="text: $data"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
-
-
 <script>
     $(function () {
         $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
     });
 
     $(document).ready(function () {
+        var trigger = $('.hamburger'),
+          //overlay = $('.overlay'),
+         isClosed = false;
+
+        trigger.click(function () {
+            hamburger_cross();
+        });
+
+        $(".sidebar-nav li a").click(function () {
+            $(".sidebar-nav").find(".open").removeClass("open");
+            $(this).parent().addClass("open");
+            $(this).parent().fadeIn("slow");
+            console.log("JO");
+        });
+
+        function hamburger_cross() {
+
+            if (isClosed == true) {
+                //overlay.hide();
+                trigger.removeClass('is-open');
+                trigger.addClass('is-closed');
+                isClosed = false;
+            } else {
+                //overlay.show();
+                trigger.removeClass('is-closed');
+                trigger.addClass('is-open');
+                isClosed = true;
+            }
+        }
+
+        $('[data-toggle="offcanvas"]').click(function () {
+            $('#wrapper').toggleClass('toggled');
+        });
+
         var viewmodel = new ViewModels.HomeViewData(@Html.Raw(Json.Serialize(Model)));
         ko.applyBindings(viewmodel, document.getElementById('homeView'));
     });
