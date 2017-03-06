@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MultiUserBlock.Common;
 
-namespace MultiUserBlock.DB.Entitys
+namespace MultiUserBlock.Db.Entitys
 {
-    public class LayoutTheme
+    public class LayoutTheme : IEntitys
     {
-        public int ThemeId { get; set; }
         public string Name { get; set; }
         public string Link { get; set; }
     }

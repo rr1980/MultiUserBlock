@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using MultiUserBlock.Common.Enums;
 using MultiUserBlock.Common.Repository;
 using MultiUserBlock.DB.Creaters;
-using MultiUserBlock.DB.Entitys;
+using MultiUserBlock.Db.Entitys;
+using MultiUserBlock.Db.Creaters;
 
 namespace MultiUserBlock.DB
 {

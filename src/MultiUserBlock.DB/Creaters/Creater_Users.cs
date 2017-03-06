@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MultiUserBlock.Common.Enums;
-using MultiUserBlock.DB.Entitys;
+using MultiUserBlock.Db.Entitys;
+using MultiUserBlock.DB;
 
-namespace MultiUserBlock.DB.Creaters
+namespace MultiUserBlock.Db.Creaters
 {
     public static class Creater_Users
     {

@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EBF3289A
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MultiUserBlock.Tests", "test\MultiUserBlock.Tests\MultiUserBlock.Tests.xproj", "{51667140-B89B-4693-8803-4928C6679301}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MultiUserBlock.Db.Entitys", "src\MultiUserBlock.Db.Entitys\MultiUserBlock.Db.Entitys.xproj", "{87CCF2C7-BC8F-49D4-9561-82696A5223C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{51667140-B89B-4693-8803-4928C6679301}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51667140-B89B-4693-8803-4928C6679301}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51667140-B89B-4693-8803-4928C6679301}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87CCF2C7-BC8F-49D4-9561-82696A5223C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87CCF2C7-BC8F-49D4-9561-82696A5223C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87CCF2C7-BC8F-49D4-9561-82696A5223C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87CCF2C7-BC8F-49D4-9561-82696A5223C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,5 +85,6 @@ Global
 		{4EC641E8-A921-4F58-8DFD-E413B9D5FE79} = {F65C03EE-7D5E-436D-95B6-34336DBED2EF}
 		{E9D74FAD-9ADA-4FAE-B3BF-7B804D5A193F} = {F65C03EE-7D5E-436D-95B6-34336DBED2EF}
 		{51667140-B89B-4693-8803-4928C6679301} = {EBF3289A-3564-4AEB-A99B-01888840CA2C}
+		{87CCF2C7-BC8F-49D4-9561-82696A5223C8} = {F65C03EE-7D5E-436D-95B6-34336DBED2EF}
 	EndGlobalSection
 EndGlobal

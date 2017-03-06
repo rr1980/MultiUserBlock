@@ -16,7 +16,8 @@
       "type": "build"
     },
     "MultiUserBlock.Common.Repository": "1.0.0-*",
-    "MultiUserBlock.Common": "1.0.0-*"
+    "MultiUserBlock.Common": "1.0.0-*",
+    "MultiUserBlock.Db.Entitys": "1.0.0-*"
   },
 
   "tools": {

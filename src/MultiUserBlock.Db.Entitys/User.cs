@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MultiUserBlock.DB.Entitys
+namespace MultiUserBlock.Db.Entitys
 {
     public class User : Person
     {

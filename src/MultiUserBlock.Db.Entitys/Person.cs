@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MultiUserBlock.Common;
 using MultiUserBlock.Common.Enums;
 
-namespace MultiUserBlock.DB.Entitys
+namespace MultiUserBlock.Db.Entitys
 {
-    public class Person
+    public class Person : IEntitys
     {
         public int Anrede { get; set; }
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Vorname { get; set; }
         public string Postleitzahl { get; set; }

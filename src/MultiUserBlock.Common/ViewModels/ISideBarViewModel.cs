@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MultiUserBlock.DB.Entitys
+namespace MultiUserBlock.Common.ViewModels
 {
-    public class Mieter : Person
+    public interface ISideBarViewModel
     {
-        public string WbsNummer { get; set; }
     }
 }

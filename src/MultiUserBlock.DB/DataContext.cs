@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using MultiUserBlock.DB.Entitys;
+using MultiUserBlock.Db.Entitys;
 
 namespace MultiUserBlock.DB
 {
@@ -27,7 +27,7 @@ namespace MultiUserBlock.DB
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.Role).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.RoleId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<RoleToUser>().HasOne(rtu => rtu.User).WithMany(r => r.RoleToUsers).HasForeignKey(rtu => rtu.UserId).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<LayoutTheme>().ToTable("LayoutTheme").HasKey(lt => lt.ThemeId);
+            modelBuilder.Entity<LayoutTheme>().ToTable("LayoutTheme").HasKey(lt => lt.Id);
             modelBuilder.Entity<User>().ToTable("User").HasOne(u => u.LayoutTheme);
             modelBuilder.Entity<Mieter>().ToTable("Mieter");
 

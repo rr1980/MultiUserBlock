@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MultiUserBlock.Common;
 using MultiUserBlock.Common.Enums;
 using MultiUserBlock.Common.Repository;
-using MultiUserBlock.DB.Entitys;
+using MultiUserBlock.Db.Entitys;
 using MultiUserBlock.ViewModels;
 
 namespace MultiUserBlock.DB
@@ -62,7 +62,7 @@ namespace MultiUserBlock.DB
                 ex.Name = user.Name;
                 ex.Vorname = user.Vorname;
                 ex.Username = user.Username;
-                ex.LayoutTheme = await _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.ThemeId == user.LayoutThemeViewModel.Id);
+                ex.LayoutTheme = await _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.Id == user.LayoutThemeViewModel.Id);
                 ex.Password = user.Password;
                 ex.Postleitzahl = user.Postleitzahl;
                 ex.Stadt = user.Stadt;
@@ -149,7 +149,7 @@ namespace MultiUserBlock.DB
         {
             return new LayoutThemeViewModel()
             {
-                Id = lt.ThemeId,
+                Id = lt.Id,
                 Name = lt.Name,
                 Link = lt.Link
             };
@@ -176,7 +176,7 @@ namespace MultiUserBlock.DB
                     Roles = user.RoleToUsers.Select(r => r.Role).Select(r => (int)r.UserRoleType),
                     LayoutThemeViewModel = new LayoutThemeViewModel()
                     {
-                        Id = user.LayoutTheme.ThemeId,
+                        Id = user.LayoutTheme.Id,
                         Name = user.LayoutTheme.Name,
                         Link = user.LayoutTheme.Link
                     }
@@ -205,7 +205,7 @@ namespace MultiUserBlock.DB
                     Strasse = user.Strasse,
                     Telefon = user.Telefon,
                     Email = user.Email,
-                    LayoutTheme = _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.ThemeId == user.LayoutThemeViewModel.Id).Result
+                    LayoutTheme = _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.Id == user.LayoutThemeViewModel.Id).Result
             };
 
                 List<RoleToUser> rtus = new List<RoleToUser>();

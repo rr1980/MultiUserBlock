@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MultiUserBlock.Common;
 using MultiUserBlock.Common.Enums;
 
-namespace MultiUserBlock.DB.Entitys
+namespace MultiUserBlock.Db.Entitys
 {
-    public class Role
+    public class Role : IEntitys
     {
-        public int RoleId { get; set; }
         public UserRoleType UserRoleType { get; set; }
         public virtual ICollection<RoleToUser> RoleToUsers { get; set; }
     }
