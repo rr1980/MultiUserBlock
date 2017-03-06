@@ -44,12 +44,16 @@
     </environment>
 </head>
 <body id="appBody">
-    <div class="container body-content">
+    <div id="wrapper" class="container-fluid body-content">
+        @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true })
+        @await Component.InvokeAsync(nameof(SidebarComponent))
+            <div id="page-content-wrapper">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; 2017 - Main</p>
         </footer>
+                    </div>
     </div>
     @RenderSection("scripts", required: false)
 </body>

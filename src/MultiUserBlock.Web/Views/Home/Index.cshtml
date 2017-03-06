@@ -3,30 +3,29 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<div id="wrapper">
 
-    @await Component.InvokeAsync(nameof(NavbarComponent), new { showSidebar = true })
-    @await Component.InvokeAsync(nameof(SidebarComponent))
 
-    <div id="page-content-wrapper">
 
-        <div id="homeView" class="container-fluid">
 
-            <h1>
-                Hallo...
-            </h1>
 
-            <input type=text id="textInput" placeholder="Enter your text" data-bind="value: tinput" />
-            <button id="sendButton" data-bind="click: onClickSend">Send</button>
 
-            <ul id="messages" data-bind="foreach: msgs">
-                <li>
-                    <span data-bind="text: $data"></span>
-                </li>
-            </ul>
-        </div>
-    </div>
+<div id="homeView" >
+
+    <h1>
+        Hallo...
+    </h1>
+
+    <input type=text id="textInput" placeholder="Enter your text" data-bind="value: tinput" />
+    <button id="sendButton" data-bind="click: onClickSend">Send</button>
+
+    <ul id="messages" data-bind="foreach: msgs">
+        <li>
+            <span data-bind="text: $data"></span>
+        </li>
+    </ul>
 </div>
+
+
 <script>
     $(function () {
         $("#themeLink").attr('href', '@Model.CurrentUser.LayoutThemeViewModel.Link');
