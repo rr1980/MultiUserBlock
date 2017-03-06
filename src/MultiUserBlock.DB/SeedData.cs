@@ -48,6 +48,12 @@ namespace MultiUserBlock.DB
                         new UserRoleType[] { UserRoleType.Admin, UserRoleType.Default },
                         new User
                         {
+                            Anrede = 0,
+                            Postleitzahl = "01983",
+                            Stadt = "Strausberg",
+                            Strasse = "Am Annatal 11",
+                            Telefon = "12003",
+                            Email="rener1980@gmx.de",
                             Name = "Riesner",
                             Vorname = "Rene",
                             Username = "rr1980",
@@ -59,6 +65,12 @@ namespace MultiUserBlock.DB
                         new UserRoleType[] { UserRoleType.Default },
                         new User
                         {
+                            Anrede = 1,
+                            Postleitzahl = "15344",
+                            Stadt = "Großräschen",
+                            Strasse = "Rosa-Luxemburg Strasse 15",
+                            Telefon = "12003",
+                            Email = "rener1980@gmail.com",
                             Name = "Riesner",
                             Vorname = "Sven",
                             Username = "Oxi",
