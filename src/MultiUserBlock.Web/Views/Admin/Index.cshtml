@@ -22,9 +22,19 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <th_li th-label="Username" th-input="user().username" th-col="4"></th_li>
+                        <th_enum th-label="Anrede" th-multiple="false" th-value="currentUser.anrede" th-type="@typeof(Anrede)" th-col="4"></th_enum>
                         <th_li th-label="Name" th-input="user().name" th-col="4"></th_li>
                         <th_li th-label="Vorname" th-input="user().vorname" th-col="4"></th_li>
+                    </div>
+                    <div class="row row-buffTop">
+                        <th_li th-label="Username" th-input="user().username" th-col="4"></th_li>
+                        <th_li th-label="Telefon" th-input="user().telefon" th-col="4"></th_li>
+                        <th_li th-label="Email" th-input="user().email" th-col="4"></th_li>
+                    </div>
+                    <div class="row row-buffTop">
+                        <th_li th-label="Plz" th-input="user().postleitzahl" th-col="4"></th_li>
+                        <th_li th-label="Stadt" th-input="user().stadt" th-col="4"></th_li>
+                        <th_li th-label="Strasse" th-input="user().strasse" th-col="4"></th_li>
                     </div>
                     <div class="row row-buffTop">
                         <th_enum th-label="Rolle" th-value="user().roles" th-type="@typeof(UserRoleType)" th-col="8"></th_enum>

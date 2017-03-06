@@ -28,6 +28,9 @@ namespace MultiUserBlock.Web.TagHelpers
         [HtmlAttributeName("th-isFC")]
         public bool IsFormControl { get; set; } = true;
 
+        [HtmlAttributeName("th-multiple")]
+        public bool Multiple { get; set; } = true;
+
         [HtmlAttributeName("th-withLabel")]
         public bool WithLabel { get; set; } = true;
 
@@ -66,7 +69,15 @@ namespace MultiUserBlock.Web.TagHelpers
                 template += $"<label class='control-label'>{Label}</label>";
             }
 
-            template += $"<select class='selectpicker form-control show-tick input-sm' data-style='btn btn-info btn-sm' multiple='true' data-bind='selectedOptions: {Value}, optionsText: \"name\", optionsValue : \"id\", options: {Options}'></select>";
+
+            if (Multiple)
+            {
+                template += $"<select class='selectpicker form-control show-tick input-sm' data-style='btn btn-info btn-sm' multiple='true' data-bind='selectedOptions: {Value}, optionsText: \"name\", optionsValue : \"id\", options: {Options}'></select>";
+            }
+            else
+            {
+                template += $"<select class='selectpicker form-control show-tick input-sm' data-style='btn btn-info btn-sm'  data-bind='value:{Value}, optionsText: \"name\", optionsValue : \"id\", options: {Options}'></select>";
+            }
 
             output.Content.SetHtmlContent(template);
         }

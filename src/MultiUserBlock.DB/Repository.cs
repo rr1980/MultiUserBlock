@@ -28,10 +28,16 @@ namespace MultiUserBlock.DB
             {
                 var usr = new User()
                 {
+                    Anrede = (int)user.Anrede,
                     Username = user.Username,
                     Name = user.Name,
                     Vorname = user.Vorname,
                     Password = user.Password,
+                    Postleitzahl = user.Postleitzahl,
+                    Stadt = user.Stadt,
+                    Strasse = user.Strasse,
+                    Telefon = user.Telefon,
+                    Email = user.Email,
                     LayoutTheme = await _context.LayoutThemes.SingleOrDefaultAsync(lt=>lt.Name=="default")
                 };
 
@@ -51,11 +57,18 @@ namespace MultiUserBlock.DB
             else
             {
                 _delRoles(ex);
+                ex.Anrede = user.Anrede;
                 ex.Name = user.Name;
                 ex.Vorname = user.Vorname;
                 ex.Username = user.Username;
                 ex.LayoutTheme = await _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.ThemeId == user.LayoutThemeViewModel.Id);
                 ex.Password = user.Password;
+                ex.Postleitzahl = user.Postleitzahl;
+                ex.Stadt = user.Stadt;
+                ex.Strasse = user.Strasse;
+                ex.Telefon = user.Telefon;
+                ex.Email = user.Email;
+
                 List<RoleToUser> rtus = new List<RoleToUser>();
                 foreach (var role in user.Roles)
                 {
@@ -76,6 +89,7 @@ namespace MultiUserBlock.DB
             }
             catch (Exception e)
             {
+                Console.WriteLine("Error...:");
                 Console.WriteLine(e);
                 throw;
             }
@@ -147,11 +161,17 @@ namespace MultiUserBlock.DB
                 return new UserViewModel()
                 {
                     UserId = user.Id,
+                    Anrede = user.Anrede,
                     Username = user.Username,
                     ShowName = user.Username,
                     Name = user.Name,
                     Vorname = user.Vorname,
                     Password = user.Password,
+                    Postleitzahl = user.Postleitzahl,
+                    Stadt = user.Stadt,
+                    Strasse = user.Strasse,
+                    Telefon = user.Telefon,
+                    Email = user.Email,
                     Roles = user.RoleToUsers.Select(r => r.Role).Select(r => (int)r.UserRoleType),
                     LayoutThemeViewModel = new LayoutThemeViewModel()
                     {
@@ -174,10 +194,16 @@ namespace MultiUserBlock.DB
                 var usr = new User()
                 {
                     Id = user.UserId,
+                    Anrede = user.Anrede,
                     Username = user.Username,
                     Name = user.Name,
                     Vorname = user.Vorname,
                     Password = user.Password,
+                    Postleitzahl = user.Postleitzahl,
+                    Stadt = user.Stadt,
+                    Strasse = user.Strasse,
+                    Telefon = user.Telefon,
+                    Email = user.Email,
                     LayoutTheme = _context.LayoutThemes.SingleOrDefaultAsync(lt => lt.ThemeId == user.LayoutThemeViewModel.Id).Result
             };
 

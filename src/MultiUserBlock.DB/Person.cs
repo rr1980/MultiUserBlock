@@ -8,7 +8,7 @@ namespace MultiUserBlock.DB
 {
     public class Person
     {
-        public Anrede Anrede { get; set; }
+        public int Anrede { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Vorname { get; set; }

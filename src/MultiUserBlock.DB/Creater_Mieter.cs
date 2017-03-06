@@ -21,7 +21,7 @@ namespace MultiUserBlock.DB
                         let data = line.Split(',')
                         select new Mieter()
                         {
-                            Anrede = (Anrede)(data[0] == "male" ? 0 : 1),
+                            Anrede = data[0] == "male" ? 0 : 1,
                             Name = data[1].Replace("\"", "").Trim(),
                             Vorname = data[2].Replace("\"", "").Trim(),
                             Strasse = data[3].Replace("\"", "").Trim(),
